@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Todo Management</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+        body{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            min-height:100vh;
+            background:linear-gradient(135deg,#020617,#0f172a,#1e293b);
+        }
+
+        .login-card{
+
+            width:420px;
+
+            background:rgba(30,41,59,.95);
+
+            padding:40px;
+
+            border-radius:20px;
+
+            box-shadow:0 15px 40px rgba(0,0,0,.5);
+
+        }
+
+        .logo{
+
+            font-size:55px;
+
+            text-align:center;
+
+            margin-bottom:15px;
+
+        }
+
+        h1{
+
+            color:white;
+
+            text-align:center;
+
+            margin-bottom:10px;
+
+        }
+
+        p{
+
+            color:#94a3b8;
+
+            text-align:center;
+
+            margin-bottom:30px;
+
+        }
+
+        label{
+
+            color:white;
+
+            font-weight:500;
+
+        }
+
+        input{
+
+            margin-bottom:18px;
+
+        }
+
+        button{
+
+            margin-top:10px;
+
+        }
+
+        .bottom{
+
+            text-align:center;
+
+            margin-top:25px;
+
+            color:#cbd5e1;
+
+        }
+
+        .bottom a{
+
+            color:#3b82f6;
+
+            font-weight:bold;
+
+        }
+
+        .quote{
+
+            margin-top:25px;
+
+            text-align:center;
+
+            color:#64748b;
+
+            font-style:italic;
+
+            font-size:14px;
+
+        }
+
+        .welcome{
+
+            color:#60a5fa;
+
+            text-align:center;
+
+            margin-bottom:5px;
+
+            font-size:18px;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="login-card">
+
+    <div class="logo">
+        🚀
+    </div>
+
+    <div class="welcome">
+        Welcome Back
+    </div>
+
+    <h1>Todo Management</h1>
+
+    <p>
+
+        Sign in to continue managing your daily tasks.
+
+    </p>
+
+    <form action="/login" method="POST">
+
+        <label>Username</label>
+
+        <input
+            type="text"
+            name="username"
+            placeholder="Enter Username"
+            required>
+
+        <label>Password</label>
+
+        <input
+            type="password"
+            name="password"
+            placeholder="Enter Password"
+            required>
+
+        <button type="submit">
+
+            Login
+
+        </button>
+
+    </form>
+
+    <div class="bottom">
+
+        New here?
+
+        <a href="/signup">
+
+            Create Account
+
+        </a>
+
+    </div>
+
+    <div class="quote">
+
+        "Success begins with a well-planned day."
+
+    </div>
+
+</div>
+
+</body>
+</html>

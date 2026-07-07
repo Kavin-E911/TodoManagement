@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>{{ todo_list["title"] }}</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h1>📋 {{ todo_list["title"] }}</h1>
+
+<p style="text-align:center;color:#94a3b8;">
+Manage your daily productivity
+</p>
+
+</div>
+
+<!-- Statistics -->
+
+<div class="stats">
+
+<div class="stat-card">
+
+<h2>{{ todo_items|length }}</h2>
+
+<p>Total</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2>
+
+{{ todo_items|selectattr("completed","equalto",1)|list|length }}
+
+</h2>
+
+<p>Completed</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2>
+
+{{ todo_items|selectattr("completed","equalto",0)|list|length }}
+
+</h2>
+
+<p>Pending</p>
+
+</div>
+
+</div>
+
+<!-- Progress -->
+
+{% set total = todo_items|length %}
+{% set completed = todo_items|selectattr("completed","equalto",1)|list|length %}
+
+<div class="card">
+
+<h2>Overall Progress</h2>
+
+<progress
+value="{{ completed }}"
+max="{{ total if total>0 else 1 }}"
+style="width:100%;height:25px;">
+</progress>
+
+<br><br>
+
+<p>
+
+Completed
+
+<strong>
+
+{{ completed }}
+
+</strong>
+
+of
+
+<strong>
+
+{{ total }}
+
+</strong>
+
+Tasks
+
+</p>
+
+</div>
+
+<!-- Add Todo -->
+
+<div class="card">
+
+<h2>➕ Add New Task</h2>
+
+<form action="/add_item/{{ todo_list['id'] }}" method="POST">
+
+<input
+
+type="text"
+
+name="title"
+
+placeholder="Enter Task"
+
+required>
+
+<select name="tag">
+
+<option>No Tag</option>
+
+<option>Study</option>
+
+<option>Work</option>
+
+<option>Personal</option>
+
+<option>Urgent</option>
+
+</select>
+
+<button>
+
+Add Task
+
+</button>
+
+</form>
+
+</div>
+
+<!-- Filter -->
+
+<div class="card">
+
+<h2>Filter</h2>
+
+<a href="/todo/{{ todo_list['id'] }}">All</a>
+
+|
+
+<a href="/todo/{{ todo_list['id'] }}/tag/Study">
+
+Study
+
+</a>
+
+|
+
+<a href="/todo/{{ todo_list['id'] }}/tag/Work">
+
+Work
+
+</a>
+
+|
+
+<a href="/todo/{{ todo_list['id'] }}/tag/Personal">
+
+Personal
+
+</a>
+
+|
+
+<a href="/todo/{{ todo_list['id'] }}/tag/Urgent">
+
+Urgent
+
+</a>
+
+</div>
+
+<!-- Todo Items -->
+
+<div class="card">
+
+<h2>Tasks</h2>
+
+{% if todo_items %}
+
+{% for item in todo_items %}
+
+<div class="todo-item">
+
+{% if item["completed"]==1 %}
+
+<h3>
+
+✅ {{ item["title"] }}
+
+</h3>
+
+{% else %}
+
+<h3>
+
+⬜ {{ item["title"] }}
+
+</h3>
+
+{% endif %}
+
+<p>
+
+Tag :
+
+{% if item["tag"]=="Urgent" %}
+
+<span class="badge high">
+
+Urgent
+
+</span>
+
+{% elif item["tag"]=="Study" %}
+
+<span class="badge low">
+
+Study
+
+</span>
+
+{% elif item["tag"]=="Work" %}
+
+<span class="badge medium">
+
+Work
+
+</span>
+
+{% else %}
+
+<span class="badge">
+
+{{ item["tag"] }}
+
+</span>
+
+{% endif %}
+
+</p>
+
+<br>
+
+<a href="/toggle_item/{{ item['id'] }}/{{ todo_list['id'] }}">
+
+<button style="width:150px;">
+
+Complete
+
+</button>
+
+</a>
+
+<br><br>
+
+<form
+
+action="/edit_item/{{ item['id'] }}/{{ todo_list['id'] }}"
+
+method="POST">
+
+<input
+
+type="text"
+
+name="title"
+
+value="{{ item['title'] }}"
+
+required>
+
+<select name="tag">
+
+<option>No Tag</option>
+
+<option>Study</option>
+
+<option>Work</option>
+
+<option>Personal</option>
+
+<option>Urgent</option>
+
+</select>
+
+<button>
+
+Update
+
+</button>
+
+</form>
+
+<br>
+
+<a href="/delete_item/{{ item['id'] }}/{{ todo_list['id'] }}">
+
+Delete
+
+</a>
+
+<hr>
+
+</div>
+
+{% endfor %}
+
+{% else %}
+
+<div style="text-align:center;padding:50px;">
+
+<h2>
+
+📋
+
+</h2>
+
+<h3>
+
+No Tasks Yet
+
+</h3>
+
+<p>
+
+Start by adding your first task.
+
+</p>
+
+</div>
+
+{% endif %}
+
+</div>
+
+<!-- Back -->
+
+<div class="footer">
+
+<a href="/dashboard">
+
+⬅ Back to Dashboard
+
+</a>
+
+<br><br>
+
+Todo Management System
+
+</div>
+
+</div>
+
+</body>
+
+</html>
